@@ -4,6 +4,37 @@ Promises Workshop: build the pledge.js ES6-style promise library
 ----------------------------------------------------------------*/
 // YOUR CODE HERE:
 
+function $Promise(executor){
+
+  if(typeof executor !== 'function') {
+    throw TypeError('executor function is not defined');
+  }
+  this._state = 'pending'
+  this._assigned = false;
+  this._value = undefined;
+
+  executor(this._internalResolve.bind(this), this._internalReject.bind(this))
+}
+//this._internalResolve
+$Promise.prototype._internalResolve  = function(someData){
+  console.log('this', this)
+  if (!$Promise.prototype._value && !this._assigned){
+    this._value = someData;
+    this._assigned = true;
+    this._state = 'fulfilled'
+  }
+
+}
+$Promise.prototype._internalReject  = function(reason){
+  console.log('thisRej', this)
+  if (!this._value && !this._assigned){
+    this._state = 'rejected'
+    this._value = reason;
+    this._assigned = true;
+  }
+}
+
+
 
 
 
